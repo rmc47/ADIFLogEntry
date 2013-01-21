@@ -1,0 +1,85 @@
+﻿@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/BaseView.cshtml";
+}
+<h2>Log Entry</h2>
+<form id="qsoform">
+    <table id="qsotable">
+        <thead>
+            <tr>
+                <td>Date</td>
+                <td>Time</td>
+                <td>Band</td>
+                <td>Mode</td>
+                <td>Callsign</td>
+                <td>RST Sent</td>
+                <td>RST Received</td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>2013-01-01</td>
+                <td>0838</td>
+                <td>160m</td>
+                <td>SSB</td>
+                <td>HB0/HB9ABC</td>
+                <td>59</td>
+                <td>59</td>
+            </tr>
+            <tr>
+                <td>2013-01-01</td>
+                <td>0838</td>
+                <td>160m</td>
+                <td>SSB</td>
+                <td>HB0/HB9ABC</td>
+                <td>59</td>
+                <td>59</td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" id="qsodate" name="qsodate" value="2013-01-01" />
+                </td>
+                <td>
+                    <input type="text" id="qsodate" name="qsodate" value="2013-01-01" />
+                </td>
+                <td>
+                    <select name="qsoband" id="qsoband">
+                        <option>160m</option>
+                        <option>80m</option>
+                        <option>60m</option>
+                        <option>40m</option>
+                        <option>30m</option>
+                        <option>20m</option>
+                        <option>17m</option>
+                        <option>15m</option>
+                        <option>12m</option>
+                        <option>10m</option>
+                        <option>6m</option>
+                        <option>4m</option>
+                        <option>2m</option>
+                        <option>70cm</option>
+                        <option>23cm</option>
+                    </select>
+                </td>
+                <td>
+                    <select name="qsomode" id="qsomode">
+                        <option>CW</option>
+                        <option>SSB</option>
+                        <option>RTTY</option>
+                        <option>PSK</option>
+                        <option>FM</option>
+                    </select>
+                </td>
+                <td>
+                    <input type="text" id="qsocallsign" name="qsocallsign" value="HB9/HB9ABC" />
+                </td>
+                <td>
+                    <input type="text" id="qsorsttx" name="qsorsttx" value="599" maxlength="5" />
+                </td>
+                <td>
+                    <input type="text" id="qsorstrx" name="qsorstrx" value="599" maxlength="5" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</form>

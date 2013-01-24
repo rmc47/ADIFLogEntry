@@ -1,20 +1,39 @@
 ﻿$(function () {
 
+    var initRowEvents = function (row) {
+        row.find(".qsocallsign").on("keypress.makenewrow", addQsoEditRow);
+        row.find("input,select").on("focus.saveoldrows", saveRows);
+        row.find(".qsomode").on("change.updatereport", function (evt) { updateReport(evt, row); });
+        row.find(".qsocallsign").on("blur.uppercasecallsign", upperCaseCallsign);
+    };
+
+    var clearRowEvents = function(row) {
+        row.find(".qsocallsign").off("keypress.makenewrow");
+        row.find("input,select").off("focus.saveoldrows");
+    };
+
     var addQsoEditRow = function () {
         var qsoEntryRow = $("#qsoEntryRow");
         var newRow = qsoEntryRow.clone(false);
 
         qsoEntryRow.attr("id", null);
         qsoEntryRow.addClass("unsavedQsoRow");
-        qsoEntryRow.find(".qsocallsign").off("keypress.makenewrow");
+        clearRowEvents(qsoEntryRow);
 
         $("#qsotable tbody").append(newRow);
         newRow.attr("id", "qsoEntryRow");
-        var newcallsignbox = newRow.find(".qsocallsign");
-        newRow.find(".qsocallsign").on("keypress.makenewrow", addQsoEditRow);
-        newRow.find(".qsodate").on("focus.saveoldrows", saveRows);
+
+        // Translate over the things that stay the same that don't automatically...
+        newRow.find(".qsoband").val(qsoEntryRow.find(".qsoband").val());
+        newRow.find(".qsomode").val(qsoEntryRow.find(".qsomode").val());
+
+        initRowEvents(newRow);
     };
-    $(".qsocallsign").on("keypress.makenewrow", addQsoEditRow);
+
+    initRowEvents($("#qsoEntryRow"));
+    $(".qsodate").val(moment().format("DD/MM/YY"));
+    $(".qsotime").val(moment().format("HHmm"));
+    $(".qsocallsign").focus();
 
     var saveRows = function () {
         $("#qsotable .unsavedQsoRow").each(function () { saveRow($(this)); });
@@ -53,4 +72,29 @@
         row.append("<td>" + rowData.rsttx + "</td>");
         row.append("<td>" + rowData.rstrx + "</td>");
     };
+
+    var updateReport = function (evt, row) {
+        var newReport = reportForMode(row.find(".qsomode").val());
+        row.find(".qsorsttx").val(newReport);
+        row.find(".qsorstrx").val(newReport);
+    };
+
+    var reportForMode = function (mode) {
+        switch (mode) {
+            case "CW":
+            case "PSK":
+            case "RTTY":
+                return "599";
+            case "SSB":
+            case "FM":
+                return "59";
+            default:
+                return "59";
+        };
+    };
+
+    var upperCaseCallsign = function (evt) {
+        var callsignInput = $(this);
+        callsignInput.val(callsignInput.val().toUpperCase());
+    }
 });

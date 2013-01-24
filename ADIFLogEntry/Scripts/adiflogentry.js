@@ -30,11 +30,6 @@
         initRowEvents(newRow);
     };
 
-    initRowEvents($("#qsoEntryRow"));
-    $(".qsodate").val(moment().format("DD/MM/YY"));
-    $(".qsotime").val(moment().format("HHmm"));
-    $(".qsocallsign").focus();
-
     var saveRows = function () {
         $("#qsotable .unsavedQsoRow").each(function () { saveRow($(this)); });
     };
@@ -61,7 +56,7 @@
     };
 
     var staticifyRow = function (row, rowData, e) {
-        console.log(e);
+        //console.log(e);
         row.removeClass("unsavedQsoRow");
         row.html("");
         row.append("<td>" + rowData.date + "</td>");
@@ -97,4 +92,9 @@
         var callsignInput = $(this);
         callsignInput.val(callsignInput.val().toUpperCase());
     }
+
+    initRowEvents($("#qsoEntryRow"));
+    $(".qsodate").val(moment().format("DD/MM/YY"));
+    $(".qsotime").val(moment().format("HHmm"));
+    $(".qsocallsign").focus();
 });

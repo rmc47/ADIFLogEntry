@@ -5,6 +5,8 @@
         row.find("input,select").on("focus.saveoldrows", saveRows);
         row.find(".qsomode").on("change.updatereport", function (evt) { updateReport(evt, row); });
         row.find(".qsocallsign").on("blur.uppercasecallsign", upperCaseCallsign);
+        row.find(".qsodate").on("blur.validatedate", validateDate);
+        row.find(".qsotime").on("blur.validatedate", validateTime);
     };
 
     var clearRowEvents = function(row) {
@@ -31,7 +33,13 @@
     };
 
     var saveRows = function () {
-        $("#qsotable .unsavedQsoRow").each(function () { saveRow($(this)); });
+        $("#qsotable .unsavedQsoRow").each(function () {
+            var row = $(this);
+            // Only save if we have no invalid fields
+            if (row.find(".invalid").length == 0 && row.find(".qsocallsign").val().length > 0) {
+                saveRow($(this));
+            }
+        });
     };
 
     var saveRow = function (row) {
@@ -91,6 +99,26 @@
     var upperCaseCallsign = function (evt) {
         var callsignInput = $(this);
         callsignInput.val(callsignInput.val().toUpperCase());
+    };
+
+    var validateDate = function (evt) {
+        var dateField = $(this);
+        var parsedVal = moment(dateField.val(), "DD/MM/YY");
+        if (parsedVal == null || !parsedVal.isValid()) {
+            dateField.addClass("invalid");
+        } else {
+            dateField.removeClass("invalid");
+        }
+    };
+
+    var validateTime = function (evt) {
+        var timeField = $(this);
+        var parsedVal = moment(timeField.val(), "HHmm");
+        if (parsedVal == null || !parsedVal.isValid()) {
+            timeField.addClass("invalid");
+        } else {
+            timeField.removeClass("invalid");
+        }
     }
 
     initRowEvents($("#qsoEntryRow"));

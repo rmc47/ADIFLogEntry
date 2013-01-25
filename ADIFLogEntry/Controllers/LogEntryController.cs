@@ -1,4 +1,5 @@
-﻿using ADIFLogEntry.Models;
+﻿using ADIFLogEntry.Engine;
+using ADIFLogEntry.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -21,6 +22,7 @@ namespace ADIFLogEntry.Controllers
         [HttpPost]
         public ActionResult AddQso(QsoModel qso)
         {
+            new DataStore().LogQso(qso);
             return Json(qso);
         }
     }

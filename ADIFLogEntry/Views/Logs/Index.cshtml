@@ -1,0 +1,14 @@
+﻿@model ADIFLogEntry.Models.LogsModel
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/BaseView.cshtml";
+}
+
+<h2>My Logs (@Model.Logs.Count)</h2>
+
+<form action="~/logs/createnew" method="post">
+    <p>Name: <input type="text" maxlength ="60" name="name" id="name" /></p>
+    <p>Locator: <input type="text" maxlength="10" name="locator" id="locator" /></p>
+    <p>WAB Square: <input type="text" maxlength="6" name="wabSquare", id="wabSquare" /></p>
+    <input type="submit" value="Create new log" name="submit" id="submit" />
+</form>

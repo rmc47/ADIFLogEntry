@@ -114,10 +114,14 @@
   <ItemGroup>
     <Compile Include="Controllers\IndexController.cs" />
     <Compile Include="Controllers\LogEntryController.cs" />
+    <Compile Include="Controllers\LoginController.cs" />
+    <Compile Include="Controllers\LogsController.cs" />
     <Compile Include="Engine\DataStore.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\LogModel.cs" />
+    <Compile Include="Models\LogsModel.cs" />
     <Compile Include="Models\QsoModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -153,6 +157,8 @@
     <Content Include="Views\Web.config" />
     <Content Include="Scripts\jquery-1.9.0.min.map" />
     <Content Include="Views\LogEntry\Index.cshtml" />
+    <Content Include="Views\Login\Index.cshtml" />
+    <Content Include="Views\Logs\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

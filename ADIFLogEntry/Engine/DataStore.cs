@@ -25,6 +25,50 @@ namespace ADIFLogEntry.Engine
             m_Connection.Open();
         }
 
+        public LogsModel LoadLogs(int userID)
+        {
+            using (MySqlCommand cmd = m_Connection.CreateCommand())
+            {
+                cmd.CommandText = "SELECT * FROM logs WHERE userID = ?userID ORDER BY created DESC;";
+                cmd.Parameters.AddWithValue("?userID", userID);
+                using (MySqlDataReader reader = cmd.ExecuteReader())
+                {
+                    LogsModel logs = new LogsModel();
+                    logs.Logs = new List<LogModel>();
+                    while (reader.Read())
+                    {
+                        logs.Logs.Add(LoadLog(reader));
+                    }
+                    return logs;
+                }
+            }
+        }
+
+        private LogModel LoadLog(MySqlDataReader reader)
+        {
+            LogModel log = new LogModel();
+            log.ID = reader.GetInt32("id");
+            log.Name = reader.GetString("name");
+            log.UserID = reader.GetInt32("userId");
+            log.Locator = reader.GetString("locator");
+            log.WabSquare = reader.GetString("wabSquare");
+            return log;
+        }
+
+        public void CreateLog(LogModel model)
+        {
+            using (MySqlCommand cmd = m_Connection.CreateCommand())
+            {
+                cmd.CommandText = "INSERT INTO logs (name, userId, locator, wabSquare) VALUES (?name, ?userId, ?locator, ?wabSquare);";
+                cmd.Parameters.AddWithValue("?name", model.Name);
+                cmd.Parameters.AddWithValue("?userId", model.UserID);
+                cmd.Parameters.AddWithValue("?locator", model.Locator);
+                cmd.Parameters.AddWithValue("?wabSquare", model.WabSquare);
+                cmd.ExecuteNonQuery();
+                model.ID = (int)cmd.LastInsertedId;
+            }
+        }
+
         public void LogQso(QsoModel qso)
         {
             using (MySqlCommand cmd = m_Connection.CreateCommand())
